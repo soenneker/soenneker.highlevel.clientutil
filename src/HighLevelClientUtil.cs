@@ -1,49 +1,51 @@
 ﻿using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Kiota.Http.HttpClientLibrary;
-using Soenneker.Extensions.Configuration;
 using Soenneker.Extensions.ValueTask;
 using Soenneker.HighLevel.Client.Abstract;
 using Soenneker.HighLevel.ClientUtil.Abstract;
 using Soenneker.HighLevel.OpenApiClient;
 using Soenneker.Kiota.BearerAuthenticationProvider;
-using Soenneker.Utils.AsyncSingleton;
+using Soenneker.Utils.SingletonDictionary;
 
 namespace Soenneker.HighLevel.ClientUtil;
 
 ///<inheritdoc cref="IHighLevelClientUtil"/>
 public sealed class HighLevelClientUtil : IHighLevelClientUtil
 {
-    private readonly AsyncSingleton<HighLevelOpenApiClient> _client;
+    /// <summary>
+    /// Cache of Kiota clients keyed by API key (each with unique bearer but shared HttpClient)
+    /// </summary>
+    private readonly SingletonDictionary<HighLevelOpenApiClient> _clients;
 
-    public HighLevelClientUtil(IHighLevelHttpClient httpClientUtil, IConfiguration configuration)
+    public HighLevelClientUtil(IHighLevelHttpClient httpClientUtil)
     {
-        _client = new AsyncSingleton<HighLevelOpenApiClient>(async (token, _) =>
+        _clients = new SingletonDictionary<HighLevelOpenApiClient>(async (apiKey, token, _) =>
         {
             HttpClient httpClient = await httpClientUtil.Get(token).NoSync();
 
-            var apiKey = configuration.GetValueStrict<string>("HighLevel:ApiKey");
+            // Each adapter has its own fixed bearer provider for the given token
+            var authProvider = new BearerAuthenticationProvider(apiKey);
 
-            var requestAdapter = new HttpClientRequestAdapter(new BearerAuthenticationProvider(apiKey), httpClient: httpClient);
+            var adapter = new HttpClientRequestAdapter(authProvider, httpClient: httpClient);
 
-            return new HighLevelOpenApiClient(requestAdapter);
+            return new HighLevelOpenApiClient(adapter);
         });
     }
 
-    public ValueTask<HighLevelOpenApiClient> Get(CancellationToken cancellationToken = default)
+    public ValueTask<HighLevelOpenApiClient> Get(string apiKey, CancellationToken cancellationToken = default)
     {
-        return _client.Get(cancellationToken);
+        return _clients.Get(apiKey, cancellationToken);
     }
 
     public void Dispose()
     {
-        _client.Dispose();
+        _clients.Dispose();
     }
 
     public ValueTask DisposeAsync()
     {
-        return _client.DisposeAsync();
+        return _clients.DisposeAsync();
     }
 }

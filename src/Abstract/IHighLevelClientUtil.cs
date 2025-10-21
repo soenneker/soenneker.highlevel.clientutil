@@ -8,7 +8,7 @@ namespace Soenneker.HighLevel.ClientUtil.Abstract;
 /// <summary>
 /// A .NET thread-safe singleton HttpClient for 
 /// </summary>
-public interface IHighLevelClientUtil: IDisposable, IAsyncDisposable
+public interface IHighLevelClientUtil : IDisposable, IAsyncDisposable
 {
-    ValueTask<HighLevelOpenApiClient> Get(CancellationToken cancellationToken = default);
+    ValueTask<HighLevelOpenApiClient> Get(string apiKey, CancellationToken cancellationToken = default);
 }
