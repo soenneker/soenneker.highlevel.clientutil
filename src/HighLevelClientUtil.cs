@@ -21,9 +21,10 @@ public sealed class HighLevelClientUtil : IHighLevelClientUtil
 
     public HighLevelClientUtil(IHighLevelHttpClient httpClientUtil)
     {
-        _clients = new SingletonDictionary<HighLevelOpenApiClient>(async (apiKey, token, _) =>
+        _clients = new SingletonDictionary<HighLevelOpenApiClient>(async (apiKey, token) =>
         {
-            HttpClient httpClient = await httpClientUtil.Get(token).NoSync();
+            HttpClient httpClient = await httpClientUtil.Get(token)
+                                                        .NoSync();
 
             // Each adapter has its own fixed bearer provider for the given token
             var authProvider = new BearerAuthenticationProvider(apiKey);
