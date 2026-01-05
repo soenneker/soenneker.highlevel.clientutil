@@ -18,21 +18,25 @@ public sealed class HighLevelClientUtil : IHighLevelClientUtil
     /// Cache of Kiota clients keyed by API key (each with unique bearer but shared HttpClient)
     /// </summary>
     private readonly SingletonDictionary<HighLevelOpenApiClient> _clients;
+    private readonly IHighLevelHttpClient _httpClientUtil;
 
     public HighLevelClientUtil(IHighLevelHttpClient httpClientUtil)
     {
-        _clients = new SingletonDictionary<HighLevelOpenApiClient>(async (apiKey, token) =>
-        {
-            HttpClient httpClient = await httpClientUtil.Get(token)
-                                                        .NoSync();
+        _httpClientUtil = httpClientUtil;
+        _clients = new SingletonDictionary<HighLevelOpenApiClient>(CreateClient);
+    }
 
-            // Each adapter has its own fixed bearer provider for the given token
-            var authProvider = new BearerAuthenticationProvider(apiKey);
+    private async ValueTask<HighLevelOpenApiClient> CreateClient(string apiKey, CancellationToken token)
+    {
+        HttpClient httpClient = await _httpClientUtil.Get(token)
+                                                     .NoSync();
 
-            var adapter = new HttpClientRequestAdapter(authProvider, httpClient: httpClient);
+        // Each adapter has its own fixed bearer provider for the given token
+        var authProvider = new BearerAuthenticationProvider(apiKey);
 
-            return new HighLevelOpenApiClient(adapter);
-        });
+        var adapter = new HttpClientRequestAdapter(authProvider, httpClient: httpClient);
+
+        return new HighLevelOpenApiClient(adapter);
     }
 
     public ValueTask<HighLevelOpenApiClient> Get(string apiKey, CancellationToken cancellationToken = default)
