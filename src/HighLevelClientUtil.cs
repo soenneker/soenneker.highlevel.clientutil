@@ -7,7 +7,7 @@ using Soenneker.HighLevel.Client.Abstract;
 using Soenneker.HighLevel.ClientUtil.Abstract;
 using Soenneker.HighLevel.OpenApiClient;
 using Soenneker.Kiota.BearerAuthenticationProvider;
-using Soenneker.Utils.SingletonDictionary;
+using Soenneker.Dictionaries.Singletons;
 
 namespace Soenneker.HighLevel.ClientUtil;
 
