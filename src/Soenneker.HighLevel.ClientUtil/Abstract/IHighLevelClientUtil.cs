@@ -10,5 +10,11 @@ namespace Soenneker.HighLevel.ClientUtil.Abstract;
 /// </summary>
 public interface IHighLevelClientUtil : IDisposable, IAsyncDisposable
 {
+    /// <summary>
+    /// Gets the value.
+    /// </summary>
+    /// <param name="apiKey">The API key.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>A task containing the result of the operation.</returns>
     ValueTask<HighLevelOpenApiClient> Get(string apiKey, CancellationToken cancellationToken = default);
 }
