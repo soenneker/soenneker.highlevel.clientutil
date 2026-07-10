@@ -11,6 +11,13 @@ namespace Soenneker.HighLevel.ClientUtil.Abstract;
 public interface IHighLevelClientUtil : IDisposable, IAsyncDisposable
 {
     /// <summary>
+    /// Gets the client configured with <c>HighLevel:ApiKey</c>.
+    /// </summary>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>A task containing the configured client.</returns>
+    ValueTask<HighLevelOpenApiClient> Get(CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Gets the value.
     /// </summary>
     /// <param name="apiKey">The API key.</param>

@@ -11,3 +11,9 @@
 ```
 dotnet add package Soenneker.HighLevel.ClientUtil
 ```
+
+The parameterless `Get()` uses `HighLevel:ApiKey`. To work with multiple HighLevel accounts or tenants, pass each API key explicitly:
+
+```csharp
+HighLevelOpenApiClient tenantClient = await highLevelClientUtil.Get(tenantApiKey);
+```
