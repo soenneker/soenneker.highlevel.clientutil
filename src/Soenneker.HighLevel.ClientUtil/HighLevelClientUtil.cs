@@ -32,7 +32,7 @@ public sealed class HighLevelClientUtil : IHighLevelClientUtil
 
     private async ValueTask<HighLevelOpenApiClient> CreateClient(string apiKey, CancellationToken token)
     {
-        HttpClient httpClient = await _httpClientUtil.Get(token)
+        HttpClient httpClient = await _httpClientUtil.Get(apiKey, token)
                                                      .NoSync();
 
         // Each adapter has its own fixed bearer provider for the given token
