@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Soenneker.HighLevel.ClientUtil.Abstract;
 
 /// <summary>
-/// A .NET thread-safe singleton HttpClient for 
+/// Provides cached HighLevel generated clients for one or more API keys.
 /// </summary>
 public interface IHighLevelClientUtil : IDisposable, IAsyncDisposable
 {
@@ -18,10 +18,10 @@ public interface IHighLevelClientUtil : IDisposable, IAsyncDisposable
     ValueTask<HighLevelOpenApiClient> Get(CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Gets the value.
+    /// Gets a client authenticated with the supplied API key.
     /// </summary>
-    /// <param name="apiKey">The API key.</param>
+    /// <param name="apiKey">The HighLevel API key.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
-    /// <returns>A task containing the result of the operation.</returns>
+    /// <returns>A task containing the configured client.</returns>
     ValueTask<HighLevelOpenApiClient> Get(string apiKey, CancellationToken cancellationToken = default);
 }
