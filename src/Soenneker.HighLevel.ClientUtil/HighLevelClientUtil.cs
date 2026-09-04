@@ -13,6 +13,7 @@ using Soenneker.HighLevel.OpenApiClient;
 
 namespace Soenneker.HighLevel.ClientUtil;
 
+/// <inheritdoc cref="IHighLevelClientUtil" />
 public sealed class HighLevelClientUtil : IHighLevelClientUtil
 {
     private readonly SingletonDictionary<HighLevelOpenApiClient> _clients;
