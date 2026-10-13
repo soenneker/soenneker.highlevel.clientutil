@@ -39,7 +39,7 @@ public sealed class HighLevelClientUtil : IHighLevelClientUtil
 
     public ValueTask<HighLevelOpenApiClient> Get(CancellationToken cancellationToken = default)
     {
-        var apiKey = _configuration.GetValueStrict<string>("HighLevel:ApiKey");
+        var apiKey = _configuration.GetStringStrict("HighLevel:ApiKey");
 
         return Get(apiKey, cancellationToken);
     }
