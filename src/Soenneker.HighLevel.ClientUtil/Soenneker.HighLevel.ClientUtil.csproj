@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net10.0</TargetFramework>
+        <TargetFramework>net11.0</TargetFramework>
         <IsAotCompatible>true</IsAotCompatible>
         <Nullable>enable</Nullable>
         <Platforms>AnyCPU</Platforms>
@@ -10,7 +10,7 @@
 
     <PropertyGroup>
         <Description>Provides cached HighLevel generated clients for one or more API keys</Description>
-        <Version Condition="'$(BUILD_VERSION)' == ''">4.0.0</Version>
+        <Version Condition="'$(BUILD_VERSION)' == ''">11.0.0</Version>
         <Version Condition="'$(BUILD_VERSION)' != ''">$(BUILD_VERSION)</Version>
         <AssemblyName>Soenneker.HighLevel.ClientUtil</AssemblyName>
         <PackageId>Soenneker.HighLevel.ClientUtil</PackageId>
@@ -49,8 +49,6 @@
         <PackageReference Include="Soenneker.HighLevel.OpenApiClient" Version="4.0.148" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.13" />
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.13" />
-        <PackageReference Include="Soenneker.Extensions.Configuration" Version="4.0.910" />
+        <PackageReference Include="Soenneker.Extensions.Configuration" Version="11.0.913" />
     </ItemGroup>
 </Project>
