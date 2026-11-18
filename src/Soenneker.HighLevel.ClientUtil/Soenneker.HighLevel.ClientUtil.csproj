@@ -46,10 +46,10 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Soenneker.HighLevel.Client" Version="11.0.342" />
-        <PackageReference Include="Soenneker.HighLevel.OpenApiClient" Version="11.0.166" />
+        <PackageReference Include="Soenneker.HighLevel.Client" Version="11.0.343" />
+        <PackageReference Include="Soenneker.HighLevel.OpenApiClient" Version="11.0.167" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Soenneker.Extensions.Configuration" Version="11.0.917" />
+        <PackageReference Include="Soenneker.Extensions.Configuration" Version="11.0.918" />
     </ItemGroup>
 </Project>
